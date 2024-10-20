@@ -59,8 +59,7 @@ def fetch_origin_for_all_repos(local_repos_path):
             print(f"{repo_path} is not a directory")
 
 
-
-def update_all_repos_skip_dirty(local_repos_path):
+def update_all_branches_skip_dirty(local_repos_path):
     for repo_name in os.listdir(local_repos_path):
         repo_path = os.path.join(local_repos_path, repo_name)
         if os.path.isdir(repo_path):
@@ -79,10 +78,29 @@ def update_all_repos_skip_dirty(local_repos_path):
                         repo.git.pull(remote.name, ref.remote_head)
                         print(f"Updated branch {ref.remote_head} from remote {remote.name} in repo {repo_name}")
                 repo.git.checkout(active_branch)
+                print(f"Set back to active branch {active_branch} in repo {repo_name}")
             except Exception as e:
                 print(f"Error updating branches in repo {repo_name}: {e}")
         else:
             print(f"{repo_path} is not a directory")
+
+def update_all_repos_to_latest_skip_dirty(local_repos_path):
+    for repo_name in os.listdir(local_repos_path):
+        repo_path = os.path.join(local_repos_path, repo_name)
+        if os.path.isdir(repo_path):
+            try:
+                repo = Repo(repo_path)
+                if repo.is_dirty():
+                    print(f"Skipping dirty repo {repo_name}")
+                    continue
+                origin = repo.remotes.origin
+                origin.pull()
+                print(f"Updated repo {repo_name} to latest remote changes")
+            except Exception as e:
+                print(f"Error updating repo {repo_name}: {e}")
+        else:
+            print(f"{repo_path} is not a directory")
+
 
 
 def list_all_branches_and_active_branch_for_all_repos(local_repos_path):
@@ -104,5 +122,5 @@ def list_all_branches_and_active_branch_for_all_repos(local_repos_path):
 if __name__ == "__main__":
     username = "kpznet"  # Replace with the GitHub username you want to query
     #clone_github_repos(username, "C:/Users/kence/Documents/KProjects/gitprojects")  # Clone all repos from the user into the "repos" directory
-    update_all_repos_skip_dirty("C:/Users/kence/Documents/KProjects/gitprojects")  # Update all repos in the "repos" directory
+    update_all_branches_skip_dirty("C:/Users/kence/Documents/KProjects/gitprojects")  # Update all repos in the "repos" directory
     list_all_branches_and_active_branch_for_all_repos("C:/Users/kence/Documents/KProjects/gitprojects")  # List all branches for all repos in the "repos" directory
