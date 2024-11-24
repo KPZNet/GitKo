@@ -1,6 +1,8 @@
 import requests
 import os
 from git import Repo
+import json
+
 
 def get_github_repos(username):
     url = f"https://api.github.com/users/{username}/repos"
@@ -118,9 +120,13 @@ def list_all_branches_and_active_branch_for_all_repos(local_repos_path):
         else:
             print(f"{repo_path} is not a directory")
 
+    
+
 # Example usage
 if __name__ == "__main__":
     username = "kpznet"  # Replace with the GitHub username you want to query
     #clone_github_repos(username, "C:/Users/kence/Documents/KProjects/gitprojects")  # Clone all repos from the user into the "repos" directory
-    update_all_branches_skip_dirty("C:/Users/kence/Documents/KProjects/gitprojects")  # Update all repos in the "repos" directory
-    list_all_branches_and_active_branch_for_all_repos("C:/Users/kence/Documents/KProjects/gitprojects")  # List all branches for all repos in the "repos" directory
+    # update_all_branches_skip_dirty("C:/Users/kence/Documents/KProjects/gitprojects")  # Update all repos in the "repos" directory
+    # list_all_branches_and_active_branch_for_all_repos("C:/Users/kence/Documents/KProjects/gitprojects")  # List all branches for all repos in the "repos" directory
+
+    get_all_repos_for_user(username)  # Save all repos for the user to a json file
