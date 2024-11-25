@@ -25,8 +25,8 @@ y_test = torch.tensor(y_test, dtype=torch.long)
 train_dataset = TensorDataset(X_train, y_train)
 test_dataset = TensorDataset(X_test, y_test)
 
-train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+train_loader = DataLoader(train_dataset, batch_size=2048, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=2048, shuffle=False)
 
 # Define the neural network model
 class IrisNet(nn.Module):
@@ -47,7 +47,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Training loop
-num_epochs = 50
+num_epochs = 5000
 for epoch in range(num_epochs):
     model.train()
     for X_batch, y_batch in train_loader:
