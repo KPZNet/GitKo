@@ -34,8 +34,11 @@ model = SimpleNN().to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
+import time
+start = time.perf_counter()
+
 # Training loop
-num_epochs = 1000
+num_epochs = 100
 for epoch in range(num_epochs):
     for inputs, labels in dataloader:
         inputs, labels = inputs.to(device), labels.to(device)
@@ -49,6 +52,9 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
     
-    print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+    #print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+
+end = time.perf_counter()
+print(f"Training time: {end-start:0.4f}")
 
 print("Training complete")
